@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name" translatable="false">distrib</string>
+
+    <string name="fail_to_start">Fail to start</string>
+    <string name="no_internet_access">No internet access</string>
+    <string name="after_toast">Enter the above address, into your web-browser.</string>
+    <string name="still_running">Destrib is running in the background</string>
+    <string name="access_title">Select which device can access your data.</string>
+</resources>

@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name" translatable="false">distrib</string>
+
+    <string name="fail_to_start">Αποτύχει να ξεκινήσει</string>
+    <string name="no_internet_access">Δεν έχετε πρόσβαση στο διαδίκτυο</string>
+    <string name="after_toast">Εισάγετε την παραπάνω διεύθυνση, στο πρόγραμμα περιήγησής σας.</string>
+    <string name="still_running">Το destrib εκτελείται στο παρασκήνιο</string>
+    <string name="access_title">Επιλέξτε ποια συσκευή μπορεί να έχει πρόσβαση στα δεδομένα σας.</string>
+</resources>
