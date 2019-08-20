@@ -1,0 +1,464 @@
+<!doctype html>
+
+<html>
+<head>
+    <title>distrib - File browser</title>
+    <meta charset="utf-8"/>
+
+    <link rel="stylesheet" href="global.css" />
+        
+    <style>
+.icon{
+    position:relative;
+    float:left;
+    border-radius:4px;
+    margin:1px;
+    background-color:rgba(142,174,188,.2);
+
+    cursor:default;
+
+    user-select:none;
+    -webkit-user-select:none;
+    -webkit-user-drag:none;
+    
+    transition:.2s; -webkit-transition:.2s;
+    
+    animation-name:fileiconin; -webkit-animation-name:fileiconin;
+    animation-iteration-count:1; -webkit-animation-iteration-count:1;
+}
+
+.icon:hover{background-color:rgba(142,174,188,.5);}
+
+.itemicon{position:absolute; transition:.2s; -webkit-transition:.2s;}
+
+.lblExtention{
+    position:absolute;
+    border-radius:20%;
+    font-weight:bold;
+    
+    overflow:hidden;
+    text-overflow:ellipsis;
+    max-width:50%;
+
+    box-shadow:rgba(127,127,127,.25) 4px 4px 5px inset,
+               rgba(255,255,255,.5) -2px -2px 3px inset,
+               rgba(64,64,64,.5) 0 4px 6px;
+
+    text-shadow:rgba(255,255,255,.85) 0 0 4px;
+
+    transition:.2s; -webkit-transition:.2s;
+}
+
+.lblName{font-weight:bold;}
+
+.lblName, .lblModified, .lblSize{
+    height:21px;
+    position:absolute;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    
+    transition:.2s; -webkit-transition:.2s;
+}
+            
+.large {width:128px; height:128px;}
+.large .itemicon {width:96px; height:96px; left:16px; top:8px; opacity:1;}
+.large .lblName {top:104px; left:0; width:100%; text-align:center; opacity:1;}
+.large .lblModified {visibility:hidden; opacity:0;}
+.large .lblSize {visibility:hidden; opacity:0;}
+.large .lblExtention {right:16px; top:50%; font-size:18px; padding:2px 8px; max-width:96px;}
+
+.tiles {width:256px; height:64px;}
+.tiles .itemicon {width:52px; height:52px; top:8px; opacity:1;}
+.tiles .lblName {left:64px; top:0px; width:172px; opacity:1;}
+.tiles .lblModified {left:64px; top:20px; width:192px; opacity:1;}
+.tiles .lblSize {left:64px; top:40px; width:192px; opacity:1;}
+.tiles .lblExtention {right:204px; top:32px; font-size:13px; padding:1px 4px; max-width:40px;}
+
+.list {width:100%; height:26px;}
+.list .itemicon {width:16px; height:16px; top:4px; opacity:1;}
+.list .lblName {left:20px; top:2px; width:45%; opacity:1;}
+.list .lblModified {left:50%; top:2px; width:25%; opacity:1;}
+.list .lblSize {left:75%; top:2px; width:25%; opacity:1;}
+.list .lblExtention {left:4px; top:12px; font-size:4px; padding:0 2px; max-width:12px;}
+
+.delete{
+    position:absolute;
+    width:20px;
+    height:20px;
+    margin:2px;
+    top:0;
+    right:0;
+    border-radius:45%;
+    border:2px solid rgba(32,32,32,.5);
+    font-family:Consolas;
+    font-weight:bold;
+    font-size:15px;
+    text-align:center;
+    cursor:default;
+    color:rgba(0,0,0,.5);
+    visibility:hidden;
+    opacity:0;
+    background-color:rgba(224,224,224,.5);
+    transition:.25s; -webkit-transition:.25s;
+}
+
+.delete:hover {
+    border:2px solid rgba(32,32,32,.8);
+    color:rgba(32,32,32,.8);
+}
+
+.delete:active {
+    background-color:rgba(32,32,32,.2);
+ }
+
+.icon:hover .delete {
+    visibility:visible;
+    opacity:1;
+}
+
+@keyframes fileiconin
+{
+    0%{opacity:.2; transform:scale(.9,.9) translate(64px,0);}
+    100%{opacity:1; transform:scale(1,1) translate(0,0);}
+}
+@-webkit-keyframes fileiconin
+{
+    0%{opacity:.2; -webkit-transform:scale(.9,.9) translate(64px,0);}
+    100%{opacity:1; -webkit-transform:scale(1,1) translate(0,0);}
+}
+
+.dategroup{
+    float:left;
+    width:100%;
+    font-size:large;
+    font-weight:500;
+    color:#888;
+    border-bottom:2px solid #888;
+    margin:8px 4px 4px 4px
+}
+
+.triangle{
+    width:0;
+    height:0;
+    float:left;
+    border-top:4px solid transparent;
+    border-left:6px solid #101010;
+    border-bottom:4px solid transparent;
+    margin:10px 2px 0px 2px;
+}
+
+.toolbar{
+    background-color:#e5e5e5;
+    position:absolute;
+    width:100%;
+    left:0;
+    top:2px;
+    height:26px;
+    padding:0px;
+    border-radius:2px;
+    background:linear-gradient(to bottom, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#e0e0e0 100%);
+    box-shadow:inset 0px 0px 6px rgba(32,32,32,.25);
+
+    user-select:none;
+    -webkit-user-select:none;
+    -webkit-user-drag:none;
+}
+            
+.toolbaricon{
+    transition:.2s; -webkit-transition:.2s;
+    text-decoration:none;
+    border-radius:4px;
+    cursor:pointer;
+    margin-right:4px;
+    margin-left:4px;
+    padding-left:4px;
+    padding-right:4px;
+    padding-top:2px;
+    padding-bottom:2px;
+    float:left;
+}
+            
+.toolbaricon:hover{
+    box-shadow:inset 0 0 6px rgba(0,0,0,.5);
+}
+
+.toolbaricon:active{
+    box-shadow:inset 0 0 6px rgba(0,0,0,.75);
+}
+
+.disable{
+    position:fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    z-index:100;
+    background-color:rgba(0,0,0,.5);
+    
+    user-select:none;
+    -webkit-user-select:none;
+    -webkit-user-drag:none;
+    
+    perspective:800px; -webkit-perspective:800px;
+    
+    animation-name:fadein; -webkit-animation-name:fadein;
+    animation-duration:.4s; -webkit-animation-duration:.4s;
+    animation-iteration-count:1; -webkit-animation-iteration-count:1;
+}
+
+.wait{
+    width:120px;
+    height:40px;
+    margin:24px auto;
+    
+    animation-name:fadein; -webkit-animation-name:fadein;
+    animation-duration:.8s; -webkit-animation-duration:.8s;
+    animation-iteration-count:1; -webkit-animation-iteration-count:1;
+    animation-timing-function:cubic-bezier(1,0,1,0.5); -webkit-animation-timing-function:cubic-bezier(1,0,1,0.5);
+}
+
+.wait div{
+    float:left;
+    position:relative;
+    border-radius:50%;
+    margin:4px;
+    width:32px;
+    height:32px;
+    background-color:rgb(32,192,32);
+
+    animation-name:sin; -webkit-animation-name:sin;
+    animation-duration:.6s; -webkit-animation-duration:.6s;
+    animation-iteration-count:infinite; -webkit-animation-iteration-count:infinite;
+}
+
+.wait div:nth-child(n+1){
+    animation-delay: 0s;
+    -webkit-animation-delay: 0s;
+}
+.wait div:nth-child(n+2){
+    animation-delay:.2s;
+    -webkit-animation-delay:.2s;
+}
+.wait div:nth-child(n+3){
+    animation-delay:.4s;
+    -webkit-animation-delay:.4s;
+}
+
+@keyframes sin{
+    0% {transform:scale(1);}
+    50% {transform:scale(.5);}
+    100% {transform:scale(1);}
+}
+@-webkit-keyframes sin{
+    0% {-webkit-transform:scale(1);}
+    50% {-webkit-transform:scale(.5);}
+    100% {-webkit-transform:scale(1);}
+}
+
+.cmdClose{
+	position:absolute;
+    width:24px;
+    height:24px;
+    margin:2px;
+    top:1px;
+    right:1px;
+    border-radius:45%;
+    border:2px solid rgba(32,32,32,.5);
+    background-color:rgb(238,238,238);
+
+	font-family:Consolas;
+    font-weight:bold;
+    font-size:17px;
+    text-align:center;
+    cursor:default;
+    color:rgba(32,32,32,.5);
+
+	transition:.25s;
+	-webkit-transition:.25s;
+}
+
+.cmdClose:hover{
+	border:2px solid rgba(32,32,32,.8);
+	color:rgba(32,32,32,.8);
+}
+
+.cmdClose:active{
+	background-color:rgb(200,200,200);
+}
+
+.viewform{
+    position:absolute;
+    left:12px;
+    right:12px;
+    top:12px;
+    bottom:12px;
+    background-color:rgb(224,224,224);
+    box-shadow:rgba(0,0,0,.5) 0 0 16px;
+    
+    transition:.4s; -webkit-transition:.4s;    
+    transform-origin:50% 0; -webkit-transform-origin:50% 0;               
+    
+    animation-name:viewformin; -webkit-animation-name:viewformin;
+    animation-duration:.4s; -webkit-animation-duration:.4s;
+    animation-iteration-count:1; -webkit-animation-iteration-count:1;
+}
+
+@keyframes fadein{
+    0%{opacity:0;}
+    100%{opacity:1;}
+}
+
+@-webkit-keyframes fadein{
+    0%{opacity:0;}
+    100%{opacity:1;}
+}
+
+@keyframes viewformin{
+    0% {opacity:0; transform:rotateX(-30deg);}
+    100% {opacity:1; transform:rotateX(0deg);}
+}
+
+@-webkit-keyframes viewformin{
+    0% {opacity:0; -webkit-transform:rotateX(-30deg);}
+    100% {opacity:1; -webkit-transform:rotateX(0deg);}
+}
+
+.viewDetails{
+    position:absolute;
+    left:8px;
+    top:8px;
+    bottom:8px;
+    width:250px;
+    background-color:rgb(208,207,208);
+    overflow:hidden;
+}
+
+.viewIcon{
+    position:absolute;
+    width:96px;
+    height:96px;
+    left:77px;
+    top:8px;
+}
+
+.viewTitle{
+    position:absolute;
+    width:100%;
+    height:24px;
+    left:0px;
+    top:128px;
+    text-align:center;
+    font-weight:bold;
+    overflow:hidden;    
+    text-overflow:ellipsis;
+}
+
+.viewTable{
+    position:absolute;
+    width:100%;
+    left:0px;
+    top:150px;
+}
+
+.viewTable tr:hover{
+    background-color:rgb(196,196,196);
+}
+.viewTable tr td:nth-child(n+2){
+    font-size:small;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.viewDownload{
+    position:absolute;
+    cursor:default;
+    left:0;
+    width:100%;
+    bottom:0;
+    padding:8px 0;
+    text-align:center;
+}
+
+.viewDownload:hover{
+    background-color:rgb(180,180,180);
+}
+
+.viewPreview{
+    position:absolute;
+    left:266px;
+    top:8px;
+    right:8px;
+    bottom:8px;
+    
+    background-position:center;
+    background-repeat:no-repeat;
+    background-size:contain;
+}
+
+.uploadframe{
+    position:fixed;
+    z-index:100;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background-color:rgba(142,174,188,.5);
+    
+    transition:.4s; -webkit-transition:.4s;
+}
+    </style>
+
+    <script src="files.js"></script>
+
+</head>
+    
+<body>
+        
+    <div class="toolbar" style="padding:4px 0;">
+
+            <div id="goUp" class="toolbaricon" onclick="goUp();">
+                <svg width="20px" height="20px">
+                    <polygon points="0,11 9,20 8,13 18,13 18,9 8,9 9,2" fill="black"></polygon>
+                </svg>
+            </div>
+                    
+            <div id="lblPath" style="position:absolute; top:4px; left:36px; width:75%; height:24px; overflow:hidden;"></div>
+                           
+            <div class="toolbaricon" onclick="viewAsLarge();" title="Large icons" style="float:right;">
+                <svg width="18px" height="18px">
+                    <polygon points="2,2 14,2 14,12 2,12" stroke="black" stroke-width="2" fill="none"></polygon>
+                    <polygon points="2,16 14,16 14,16 2,16" stroke="black" stroke-width="1" fill="none"></polygon>
+                </svg>
+            </div>
+
+            <div class="toolbaricon" onclick="viewAsTiles();" title="Tiles" style="float:right;">
+                <svg width="18px" height="18px">
+                    <polygon points="2,1 8,1 8,7 2,7" stroke="black" stroke-width="2" fill="none"></polygon>
+                    <polygon points="10,2 17,2" stroke="black" stroke-width="2"></polygon>
+                    <polygon points="10,5 17,5" stroke="black" stroke-width="2"></polygon>
+                    <polygon points="2,11 8,11 8,17 2,17" stroke="black" stroke-width="2" fill="none"></polygon>
+                    <polygon points="10,12 17,12" stroke="black" stroke-width="2"></polygon>
+                    <polygon points="10,15 17,15" stroke="black" stroke-width="2"></polygon>
+                </svg>
+            </div>
+
+            <div class="toolbaricon" onclick="viewAsList();" title="List" style="float:right;">
+                <svg width="18px" height="18px">
+                    <polygon points="2,3 4,3" stroke="black" stroke-width="2"></polygon>
+                    <polygon points="6,3 17,3" stroke="black" stroke-width="2"></polygon>
+                    <polygon points="2,7 4,7" stroke="black" stroke-width="2"></polygon>
+                    <polygon points="6,7 17,7" stroke="black" stroke-width="2"></polygon>
+                    <polygon points="2,11 4,11" stroke="black" stroke-width="2"></polygon>
+                    <polygon points="6,11 17,11" stroke="black" stroke-width="2"></polygon>
+                    <polygon points="2,15 4,15" stroke="black" stroke-width="2"></polygon>
+                    <polygon points="6,15 17,15" stroke="black" stroke-width="2"></polygon>
+                </svg>
+            </div>
+
+    </div>
+        
+    <div id="listbox" style="position:fixed; right:0px; left:0px; top:38px; bottom:0px; overflow-y:scroll; overflow-x:hidden;"></div>
+
+    <script>init();</script>
+</body>
+</html>

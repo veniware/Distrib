@@ -1,0 +1,111 @@
+.outerframe{
+    position:absolute;
+    width:100%;
+    height:100%;
+    top:0;
+    z-index:5;
+    box-shadow:0 0 24px rgba(64,64,64,1);
+    overflow:hidden;
+
+    transition:.3s; -webkit-transition:.3s;
+
+    animation-name:windowin; -webkit-animation-name:windowin;
+    animation-duration:.5s; -webkit-animation-duration:.5s;
+    animation-iteration-count:1; -webkit-animation-iteration-count:1;
+}
+
+.windowtitle{
+    width:100%;
+    height:24px;
+    padding-left:4px;
+    padding-top:1px;
+
+    text-shadow:0 0 4px black;
+    color:white;
+    cursor:default;
+
+    background:linear-gradient(to bottom, rgb(100,107,110)0%, rgb(50,50,55)100%);
+}
+
+.innerframe{
+    position:absolute;
+    width:100%;
+    top:24px;
+    bottom:0;
+}
+
+.innerframe iframe{
+    border:none;
+    background-color:#F5F5F5;
+    width:100%;
+    height:100%;
+}
+
+.winbutton{
+    position:absolute;
+    width:24px;
+    height:20px;
+    top:2px;
+    cursor:default;
+    border-radius:4px;
+    background:linear-gradient(to bottom, rgba(233,233,233,.8) 0%,rgba(240,240,240,.8) 20%,rgba(199,199,199,.8) 50%,rgba(214,214,214,.8) 75%,rgba(190,190,190,.8) 100%);
+    box-shadow:inset 0 0 4px rgba(32,32,32,.3), inset 0 0 8px rgba(64,64,64,0);
+
+    text-align:center;
+    font-family:consolas;
+    font-size:15px;
+    font-weight:bold;
+    text-shadow:rgb(127,127,127) 0 0 1px;
+    color:rgb(72,72,72);
+
+    transition:.33s; -webkit-transition:.33s;
+}
+.winbutton:hover{
+    box-shadow:inset 0 0 4px rgba(32,32,32,.0), inset 0 0 8px rgba(32,32,32,.7);
+}
+.winbutton:active{
+    box-shadow:inset 0 0 4px rgba(32,32,32,.3), inset 0 0 16px rgba(64,64,64,.75);
+}
+
+@keyframes windowin{
+    0% {opacity:0; transform:scale(.85,.85);}
+    100% {opacity:1; transform:scale(1,1);}
+}
+
+@-webkit-keyframes windowin{
+    0% {opacity:0; -webkit-transform:scale(.85,.85);}
+    100% {opacity:1; -webkit-transform:scale(1,1);}
+}
+
+.tooltip{
+    position:relative;
+}
+
+.tooltip:hover:before{
+    border:solid;
+    border-color:rgb(32,32,32) transparent;
+    border-width:6px 6px 0 6px;
+    bottom:66px;
+    content:"";
+    left:16px;
+    position:absolute;
+    z-index:101;
+}
+		
+.tooltip:hover:after{
+    background-color:rgb(32,32,32);
+    color:#fff;
+    border-radius:8px;
+    bottom:72px;
+    content:attr(title);
+    text-align:center;
+    left:10%;
+    padding:4px 8px;
+    position:absolute;
+    z-index:100;
+
+    min-width:128px;
+    max-width:256px;
+
+    box-shadow:rgba(0,0,0,.4) 4px 2px 8px;
+}

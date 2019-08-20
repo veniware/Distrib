@@ -1,0 +1,260 @@
+<!doctype html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>distrib</title>
+    
+    <link rel="icon" href="favicon.png" />
+
+    <link rel="stylesheet" href="global.css" />
+    <link rel="stylesheet" href="window.css" />
+
+    <style>
+*{
+    user-select:none;
+    -webkit-user-select:none;
+    -webkit-user-drag:none;
+}
+
+body{
+    margin:0;
+    padding:0;
+    overflow:hidden;
+}
+
+.desktop{
+    position:absolute;
+    width:100%;
+    top:0;
+    bottom:64px;
+    background:radial-gradient(circle, rgb(100,107,110)0%, rgb(100,107,110)50%, rgb(50,50,55)100%);
+}
+
+.deskbar{
+    position:absolute;
+    width:100%;
+    height:64px;
+    bottom:0;
+    z-index:9;
+
+    background:linear-gradient(to bottom, rgb(90,97,100)0%, rgb(50,50,55)100%);
+    box-shadow:black 0 0 10px;
+}
+
+.deskicon{
+    width:64px;
+    height:64px;
+    border-radius:12.5%;
+    float:left;
+
+    animation-name:deskiconin; -webkit-animation-name:deskiconin;
+    animation-duration:.25s; -webkit-animation-duration:.25s;
+    animation-iteration-count:1; -webkit-animation-iteration-count:1;
+
+    transition:.33s; -webkit-transition:.33s;
+}
+.deskicon:hover{
+    box-shadow:inset 0 8px 8px rgba(255,255,255,.25), inset 0 0 8px rgba(32,32,32,.5);
+}
+.deskicon:active{
+    box-shadow:inset 0 8px 8px rgba(255,255,255,.25), inset 0 0 16px rgba(16,16,16,.5); transform:scale(.9,.9); -webkit-transform:scale(.9,.9);
+}
+
+.deskiconactive{
+    box-shadow:inset 0 8px 8px rgba(255,255,255,0), inset 0 0 12px rgba(32,32,32,1);
+}
+
+.deskicon img{
+    position:relative;
+    left:5%;
+    top:5%;
+    width:90%;
+    height:90%;
+}
+
+
+@keyframes deskiconin
+{
+    0% {opacity:0; transform:scale(0,0);}
+    100% {opacity:1; transform:scale(1,1);}
+}
+@-webkit-keyframes deskiconin
+{
+    0% {opacity:0; -webkit-transform:scale(0,0);}
+    100% {opacity:1; -webkit-transform:scale(1,1);}
+}
+
+.primary{
+    width:640px;
+    height:128px;
+    margin:96px auto;
+
+    transition:.25s; -webkit-transition:.25s;
+}
+
+@media screen and (max-width:640px){
+    .primary{
+        transform:scale(.6);
+    }
+}
+
+.icon{
+    cursor:default;
+    float:left;
+    width:128px;
+    height:132px;
+    padding:2px 0 2px 0;
+    text-align:center;
+    outline:0;
+    
+    -webkit-box-reflect:below 4px -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,0)), color-stop(.4, rgba(255,255,255,0)), to(rgba(255,255,255,.2)));
+
+    text-shadow:black 0 0 4px;
+    color:white;
+}
+
+.icon img{
+    border:0;
+    width:96px;
+    height:96px;
+    
+    transition:.2s; -webkit-transition:.2s;
+}
+
+.icon:hover img{
+    width:112px;
+    height:112px;
+}
+
+.intro{
+    animation-name:intro; -webkit-animation-name:intro;
+    animation-duration:.5s; -webkit-animation-duration:.5s;
+    animation-iteration-count:1; -webkit-animation-iteration-count:1;
+}
+
+@keyframes intro{
+    0% { width:96px; height:96px; }
+    50% { width:128px; height:128px; }
+    100% { width:96px; height:96px; }
+}
+
+@-webkit-keyframes intro{
+    0% { width:96px; height:96px; }
+    50% { width:128px; height:128px; }
+    100% { width:96px; height:96px; }
+}
+
+#statusbar{
+    position:absolute;
+    border-radius:0 0 6px 6px;
+    z-index:100;
+    display:inline-block;
+    height:22px;
+    padding:0 8px 0 8px;
+    cursor:default;
+    
+    background-color:rgba(0,0,0,.5);    
+}
+
+#statusbar div,svg{
+    float:left;
+    color:white;
+    font-size:small;
+    
+    transition:1s; -webkit-transition:1s;
+}
+
+svg path{
+    transition:1s; -webkit-transition:1s;
+}
+
+svg path:nth-child(1){
+    transition-delay:.6s; -webkit-transition-delay:.6s;
+}
+svg path:nth-child(2){
+    transition-delay:.4s; -webkit-transition-delay:.4s;
+}
+svg path:nth-child(3){
+    transition-delay:.2s; -webkit-transition-delay:.2s;
+}
+svg path:nth-child(4){
+    transition-delay:0s; -webkit-transition-delay:0s;
+}
+
+#divTime{
+    margin:2px 2px 0px 4px;
+}
+
+#divBattery{
+    width:10px;
+    height:16px;
+    margin:4px 2px 0px 2px;
+    
+    background-color:white;
+    outline-style:solid;
+    outline-color:white;
+    outline-width:1px;
+}
+
+#divBattery:before{
+    border:solid;
+    border-width:2px 3px 0 3px;
+    content:"";
+    left:36px;
+    top:1px;
+    position:absolute;
+}
+
+#divBattery div{
+    width:100%;
+    height:100%;
+    bottom:0;
+    background-color:#444;
+}
+    </style>
+
+    <script src="windows.js"></script> 
+    <script src="desktop.js"></script>        
+</head>
+
+<body onresize="adjustDeskbar();">
+
+    <div class="desktop" id="desktop">
+        
+        <div id="statusbar">
+            <svg width="20" height="20" viewBox="0 0 455.838 455.838" fill="#444" style="padding-right:4px">
+                <path id="wifi0" d="M454.968,160.667c-0.175-0.257-0.374-0.498-0.595-0.719C393.884,99.46,313.461,66.147,227.919,66.147    c-85.537,0-165.953,33.306-226.439,93.788c-0.94,0.933-1.48,2.21-1.48,3.552c0,1.326,0.526,2.598,1.465,3.536l33.113,33.114    c0.938,0.938,2.209,1.464,3.535,1.464c1.326,0,2.598-0.527,3.535-1.464c49.836-49.839,115.988-77.285,186.271-77.285    c70.282,0,136.434,27.447,186.271,77.284c0.938,0.938,2.209,1.464,3.534,1.464c1.326,0,2.599-0.527,3.535-1.464l33.113-33.114    c0.938-0.938,1.465-2.209,1.465-3.536C455.839,162.481,455.534,161.499,454.968,160.667z" />                
+                <path id="wifi1" d="M227.919,153.719c-62.056,0-120.461,24.231-164.458,68.229c-1.952,1.953-1.952,5.119,0.001,7.071l33.01,33.009 c0.938,0.938,2.209,1.465,3.535,1.465c1.326,0,2.598-0.527,3.535-1.465c33.277-33.277,77.448-51.605,124.377-51.605 c46.931,0,91.102,18.328,124.376,51.605c0.938,0.938,2.21,1.465,3.536,1.465s2.598-0.527,3.535-1.465l33.011-33.009 c0.938-0.938,1.465-2.209,1.465-3.536c0-1.327-0.525-2.598-1.465-3.536C348.38,177.951,289.975,153.719,227.919,153.719z" />
+                <path id="wifi2" d="M227.919,241.292c-38.701,0-75.126,15.11-102.564,42.549c-0.939,0.938-1.465,2.209-1.465,3.537 c0,1.326,0.525,2.598,1.465,3.535l33.01,33.01c0.938,0.938,2.209,1.465,3.535,1.465s2.598-0.527,3.535-1.465 c16.719-16.719,38.909-25.926,62.484-25.926s45.767,9.209,62.485,25.926c0.938,0.938,2.209,1.465,3.534,1.465 s2.598-0.527,3.535-1.465l33.01-33.01c1.952-1.953,1.952-5.119,0-7.07C303.046,256.402,266.621,241.292,227.919,241.292z" />
+                <path id="wifi3" d="M227.919,334.083c-13.521,0-26.229,5.264-35.784,14.822c-1.952,1.953-1.952,5.118,0.001,7.07l32.248,32.25 c0.938,0.938,2.209,1.465,3.535,1.465s2.599-0.527,3.535-1.465l32.248-32.25c1.952-1.953,1.952-5.118,0-7.071 C254.146,339.347,241.438,334.083,227.919,334.083z" />
+            </svg>
+            
+            <div id="divBattery"><div id="divBatteryFill"></div></div>
+            <div id="divTime">00:00</div>
+        </div>
+
+        <div class="primary" id="primary">
+            <a onclick="addWindow('files#path=/storage/emulated/0', 'Internal storage', 'phone.png');"><div class="icon" tabindex="1"><img src="phone.png" class="intro" style="animation-delay:0.5s;"><br>Internal storage</div></a>
+            <a onclick="addWindow('files#path=/storage/external_SD', 'SD card', 'sd.png');"><div class="icon" tabindex="1"><img src="sd.png" class="intro" style="animation-delay:0.6s;"><br>SD card</div></a>
+            <a onclick="addWindow('files#path=Photos', 'Photos', 'photos.png');"><div class="icon" tabindex="1"><img src="photos.png" class="intro" style="animation-delay:0.7s;"><br>Photos</div></a>
+            <a onclick="addWindow('files#path=Videos', 'Videos', 'video.png');"><div class="icon" tabindex="1"><img src="video.png" class="intro" style="animation-delay:0.8s;"><br>Videos</div></a>
+            <a onclick="addWindow('messaging', 'Messaging', 'message.png');"><div class="icon" tabindex="1"><img src="message.png" class="intro" style="animation-delay:0.9s;"><br>Messaging</div></a>
+        </div>
+
+    </div>
+
+    <div class="deskbar" id="deskbar"></div>
+
+    <script>
+        initDesk();
+        updateStatus_tick();
+        
+        history.pushState(null, null, "/");
+        window.addEventListener("popstate", function(event){
+            history.pushState(null, null, "/");
+        });
+    
+    </script>
+</body>
+</html>

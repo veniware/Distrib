@@ -1,0 +1,155 @@
+<!doctype html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>distrib - Forbidden</title>
+      
+    <style>
+        body{
+            background-color:#E0E0E0;
+            background:radial-gradient(circle, rgb(100,107,110)0%, rgb(100,107,110)50%, rgb(50,50,55)100%);
+            font-family:"Segoe UI";
+        }
+        
+        
+        .outter{
+            margin:40px auto;
+            width:600px;
+            height:320px;
+            border-radius:6px;
+        }
+        
+        table{
+            width:100%;
+            height:100%;
+        }
+        
+        .phone{
+            background-color:rgb(16,16,16);
+            width:175px;
+            height:320px;
+            border-radius:6px;
+            box-shadow:rgb(48,48,48) 16px 16px 64px;
+        }
+        
+        .screen{
+            background-color:rgb(96,96,96);
+            position:relative;
+            width:90%;
+            height:80%;
+            left:5%;
+            top:10%;
+        }
+        
+        .container{
+            position:relative;
+            width:85%;
+            height:50%;
+            left:5%;
+            top:17%;
+            border:3px solid #8A8A8A;
+            border-radius:24px;
+        }
+        
+        .button{
+            margin:32px auto;
+            width:64px;
+            height:64px;
+            left:5%;
+            top:18%;
+            border-radius:34px;
+            background-color:rgb(160,160,160);
+        }
+        
+        .access{
+            position:absolute;
+            background-color:rgb(160,160,160);
+            width:40px;
+            height:40px;
+            left:8px;
+            bottom:8px;
+            border-radius:20px;
+            
+            animation-name:glow; -webkit-animation-name:glow;
+            animation-duration:2s; -webkit-animation-duration:2s;
+            animation-iteration-count:infinite; -webkit-animation-iteration-count:infinite;
+        }
+        
+        
+        @keyframes glow{
+            0% { box-shadow:rgba(64,255,32,.5) 0 0 4px; }
+            50% { box-shadow:rgba(64,255,32,1) 0 0 24px; }
+            100% { box-shadow:rgba(64,255,32,.5) 0 0 4px; }
+        }
+        
+        @-webkit-keyframes glow{
+            0% { box-shadow:rgba(64,255,32,.5) 0 0 4px; }
+            50% { box-shadow:rgba(64,255,32,1) 0 0 24px; }
+            100% { box-shadow:rgba(64,255,32,.5) 0 0 4px; }
+        }
+        
+        .info{
+            padding:24px;
+            font-size:x-large;
+            font-weight:600;
+            text-shadow:rgba(255,255,255,0.5) 0 0 8px;
+        }
+        
+        input[type="button"]{
+            outline:0;
+            background:linear-gradient(to bottom, rgba(233,233,233,.8) 0%,rgba(240,240,240,.8) 20%,rgba(199,199,199,.8) 50%,rgba(214,214,214,.8) 75%,rgba(190,190,190,.8) 100%);
+            border-radius:4px;
+            width:96px;
+            height:32px;
+            margin:4px;
+            border:0px;
+            box-shadow:inset 0 0 4px rgba(32,32,32,.3), inset 0 0 8px rgba(64,255,32,0), 0 0 12px rgba(64,255,32,0);
+            transition:.4s; -webkit-transition:.4s;
+        }
+        
+        input[type="button"]:hover{
+            box-shadow:inset 0 0 4px rgba(32,32,32,.0), inset 0 0 8px rgba(64,255,32,.7), 0 0 12px rgba(64,255,32,0);
+        }
+        
+        input[type="button"]:active{
+            box-shadow:inset 0 0 4px rgba(32,32,32,.3), inset 0 0 16px rgba(64,255,32,.75), 0 0 12px rgba(64,255,32,1);
+        }     
+        
+    </style> 
+</head>
+
+<body>
+    
+    <div class="outter">    
+        
+        <table>
+            <tr>
+                <td>
+                    
+                    <div class="phone">
+                        <div class="screen">
+                            
+                            <div class="container">
+                                <div class="button"></div>
+                            </div>
+                            
+                            <div class="access"></div>
+                            
+                        </div>
+                    </div>
+                    
+                </td>
+                <td>
+                    <div class="info">Click the key button on your phone/tablet, and select which device can access your data.</div>
+                    <input value="Ready" type="button" onclick="location.reload();" style="margin:24px;" autofocus/>
+                </td>
+            </tr>        
+        </table>
+        
+
+
+    </div>
+
+</body>
+</html>
